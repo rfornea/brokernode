@@ -100,9 +100,6 @@ class UploadSessionController extends Controller
         if (empty($data_map)) {
             return response('Datamap not found', 404);
         }
-        if ($data_map['hash'] != $chunk['hash']) {
-            return response('Forbidden', 403);
-        }
 
         // Process chunk.
         $brokerReq = (object)[
@@ -110,7 +107,7 @@ class UploadSessionController extends Controller
                 "{$_SERVER['REMOTE_ADDR']}:{$_SERVER['REMOTE_PORT']}",
             "message" => $chunk["data"],
             "chunkId" => $chunk["idx"],
-            "address" => $chunk["hash"],
+            "address" => $data_map["hash"],
         ];
         BrokerNode::processNewChunk($brokerReq);
 
@@ -141,18 +138,15 @@ class UploadSessionController extends Controller
         // It is shared by a few functions.
 
         $genesis_hash = $request->input('genesis_hash');
-        $chunk = $request->input('chunk');
+        $chunk_idx = $request->input('chunk_idx');
 
         $data_map = DataMap::where('genesis_hash', $genesis_hash)
-            ->where('chunk_idx', $chunk['idx'])
+            ->where('chunk_idx', $chunk_idx)
             ->first();
 
         // Error Responses
         if (empty($data_map)) {
             return response('Datamap not found', 404);
-        }
-        if ($data_map['hash'] != $chunk['hash']) {
-            return response('Forbidden', 403);
         }
 
         // Don't need to check tangle if already detected to be complete.
