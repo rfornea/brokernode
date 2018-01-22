@@ -13,6 +13,8 @@ use \PrepareTransfers;
 use \IriData;
 use \IriWrapper;
 use \NodeMessenger;
+use \stdClass;
+use \Exception;
 
 class BrokerNode
 {
