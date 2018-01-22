@@ -41,7 +41,8 @@ class BrokerNode
         }
     }
 
-    public static function returnPrlPerGB() {
+    public static function returnPrlPerGB()
+    {
         /*
          * TODO:  Replace this with something
          * that takes into account the peg.
@@ -49,7 +50,8 @@ class BrokerNode
         return 1;
     }
 
-    public static function returnEthAddress() {
+    public static function returnEthAddress()
+    {
         /*
          * TODO:  This needs to call the logic
          * that Facundo is working on for issue #37
@@ -63,7 +65,7 @@ class BrokerNode
     {
         try {
             if (self::dataNeedsAttaching($chunk)) {
-                self::getTransactionData($chunk);
+                self::buildTransactionData($chunk);
                 self::sendToHookNode($chunk);
             } else {
                 // move on to the next chunk
@@ -99,7 +101,47 @@ class BrokerNode
         }
     }
 
-    public static function getTransactionData(&$request)
+    public static function verifyChunkMatchesRecord($request)
+    {
+        $command = new stdClass();
+        $command->command = "findTransactions";
+        $command->addresses = array($request->address);
+
+        BrokerNode::$iriRequestInProgress = true;
+        self::initIri();
+        $result = self::$IriWrapper->makeRequest($command);
+
+        BrokerNode::$iriRequestInProgress = false;
+
+        if (!is_null($result) && property_exists($result, 'hashes') &&
+            count($result->hashes) != 0) {
+            $txHashToCheck = end($result->hashes);
+            self::getTransactionTrytes($txHashToCheck);
+        } else {
+            throw new Exception('findTransactions failed!');
+        }
+    }
+
+    public static function getTransactionTrytes($txHash) {
+        $command = new stdClass();
+        $command->command = "getTrytes";
+        $command->hashes = array($txHash);
+
+        BrokerNode::$iriRequestInProgress = true;
+        self::initIri();
+        $result = self::$IriWrapper->makeRequest($command);
+
+        BrokerNode::$iriRequestInProgress = false;
+
+        if (!is_null($result) && property_exists($result, 'trytes') &&
+            count($result->trytes) != 0) {
+            //START HERE
+        } else {
+            throw new Exception('findTransactions failed!');
+        }
+    }
+
+    public static function buildTransactionData(&$request)
     {
         $trytesToBroadcast = NULL;
 
