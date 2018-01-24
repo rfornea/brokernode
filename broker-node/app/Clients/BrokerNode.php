@@ -167,6 +167,15 @@ class BrokerNode
 
         self::initMessenger();
         self::$NodeMessenger->sendMessageToNode($tx, $hookNodeUrl);
+        echo "sleeping";
+        sleep(300);
+        echo "AWAKE";
+        try {
+            self::verifyChunkMatchesRecord($tx);
+        } catch (\Exception $e) {
+            echo "Caught exception: " . $e->getMessage();
+            // something went wrong during our check, do something about it
+        }
         self::updateHookNodeDirectory($hookNodeUrl, "request_made");
     }
 
@@ -206,9 +215,14 @@ class BrokerNode
         $command->command = "findTransactions";
         $command->addresses = array($chunk->address);
 
+        echo "in erifyChunkMatchesRecord";
+
         BrokerNode::$iriRequestInProgress = true;
         self::initIri();
         $result = self::$IriWrapper->makeRequest($command);
+
+        echo "result of erifyChunkMatchesRecord";
+        var_dump($result);
 
         BrokerNode::$iriRequestInProgress = false;
 
@@ -217,11 +231,14 @@ class BrokerNode
             $txObjects = self::getTransactionObjects($result->hashes);
             foreach ($txObjects as $key => $value) {
                 if (self::chunksMatch($value, $chunk)) {
+
+                    echo "CHUNK MATCHED";
                     /*TODO
                         update the status and leave the loop
                     */
                 }
             }
+            echo "SHOULD HAVE HIT THE IF BLOCK?";
             /*TODO
                 no matches yet, respond accordingly
             */
@@ -243,10 +260,15 @@ class BrokerNode
         $command->command = "getTrytes";
         $command->hashes = $hashes;
 
+        echo "in etTransactionObjects";
+
         BrokerNode::$iriRequestInProgress = true;
         self::initIri();
         $result = self::$IriWrapper->makeRequest($command);
         BrokerNode::$iriRequestInProgress = false;
+
+        echo "result of etTransactionObjects";
+        var_dump($result);
 
         if (!is_null($result) && property_exists($result, 'trytes') &&
             count($result->trytes) != 0) {
