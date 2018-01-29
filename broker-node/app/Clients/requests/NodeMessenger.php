@@ -18,24 +18,6 @@ class NodeMessenger
         array_push($this->headers, $this->apiVersionHeaderString . IriData::$apiVersion);
     }
 
-    private function validateUrl($nodeUrl)
-    {
-
-        /*
-         * TODO
-         * Remove this method or update it
-        */
-
-        $http = "((http)\:\/\/)"; // starts with http://
-        $port = "(\:[0-9]{2,5})"; // ends with a port
-
-        if (preg_match("/^$http/", $nodeUrl) && preg_match("/$port$/", $nodeUrl)) {
-            return true;
-        } else {
-            throw new Exception('Invalid URL.');
-        }
-    }
-
     public function sendMessageToNode($commandObject, $nodeUrl)
     {
         $payload = http_build_query($commandObject);

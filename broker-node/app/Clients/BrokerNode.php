@@ -125,7 +125,7 @@ class BrokerNode
 
     private static function sendToHookNode($modifiedTx)
     {
-        $hookNodeUrl = self::selectHookNode();
+        $hookNodeUrl = self::selectHookNode() + '/HookNodeListener.php';
 
         $tx = new \stdClass();
         $tx = $modifiedTx;
