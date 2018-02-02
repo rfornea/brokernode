@@ -7,6 +7,7 @@ require_once("requests/IriData.php");
 require_once("requests/IriWrapper.php");
 require_once("requests/NodeMessenger.php");
 
+
 // This is a temporary hack to make the above required files work in this
 // namespace. We can clean this up after testnet.
 use \Exception;
@@ -16,6 +17,7 @@ use \NodeMessenger;
 use \PrepareTransfers;
 use \stdClass;
 use App\HookNode;
+use App\ChunkEvents;
 
 class BrokerNode
 {
@@ -44,7 +46,7 @@ class BrokerNode
             self::$NodeMessenger = new NodeMessenger();
         }
     }
-
+    
     private static function getOrInitHooknodeQueue()
     {
         if (!is_null(self::$hooknode_queue)) {
@@ -218,12 +220,22 @@ class BrokerNode
         }
 
         self::$NodeMessenger->spamHookNodes($tx, $spammedNodes);  // remove this, temporary solution
+        
+        //we should consider waiting 3 minutes on the hook node, then sending to another node
+        
+        //check
+        
 
         self::updateHookNodeDirectory($hookNodeUrl, "request_made");
+        
+        ChunkEvents::addChunkEvent("chunk_sent_to_hook", $hooknode['ip_address'], "", "");
+        //update broker metrics
 
         $tx->hookNodeUrl = $hookNodeUrl;
         return $tx;
     }
+    
+
 
     private static function updateHookNodeDirectory($currentHook, $status)
     {

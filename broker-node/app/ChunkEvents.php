@@ -33,7 +33,7 @@ class ChunkEvents extends Model
     
 
 	
-	public static function addChunkEvent($event_name, $hook_node_id, $session_id, value=""){
+	public static function addChunkEvent($event_name, $hook_node_id, $session_id, $value){
 	
 		self::create([
 
@@ -49,6 +49,15 @@ class ChunkEvents extends Model
 		
 		$this->save();
 
+	}
+	
+	//refactor   setting the hook id to be the ip.  
+	//TODO:  add session id
+	public static addChunkSentToHookNodeEvent($hook_ip){
+	    
+	    $event_name = "chunk_sent";
+	    
+	    $this->addChunkEvent($event_name, $hook_ip, "", "" );
 	}
 	
 }
