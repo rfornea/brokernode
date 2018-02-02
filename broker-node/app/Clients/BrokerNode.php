@@ -228,7 +228,7 @@ class BrokerNode
 
         self::updateHookNodeDirectory($hookNodeUrl, "request_made");
         
-        ChunkEvents::addChunkEvent("chunk_sent_to_hook", $hooknode['ip_address'], "", "");
+        ChunkEvents::addChunkSentToHookNodeEvent($hooknode['ip_address']);
         //update broker metrics
 
         $tx->hookNodeUrl = $hookNodeUrl;

@@ -55,10 +55,11 @@ class ChunkEvents extends Model
 	//TODO:  add session id
 	public static addChunkSentToHookNodeEvent($hook_ip){
 	    
-	    $event_name = "chunk_sent";
+	    $event_name = "chunk_sent_to_hook";
 	    
 	    $this->addChunkEvent($event_name, $hook_ip, "", "" );
 	}
+	
 	
 }
 
