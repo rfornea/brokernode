@@ -30,9 +30,10 @@ class CreateChunkEvents extends Migration
      *
      * @return void
      */
+        
     public function down()
     {
-        Schema::drop('flights');
+        Schema::drop('chunk_events');
     }
 }
 
