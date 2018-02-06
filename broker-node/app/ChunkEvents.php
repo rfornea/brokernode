@@ -69,6 +69,12 @@ class ChunkEvents extends Model
 	    self::addChunkEvent($event_name, $hook_ip, "", "" );
 	}
 	
+	public function addHookNodeFinishedChunkEvent($hook_ip){
+	    
+	    $event_name = "chunk_finished_by_hook";
+	    
+	    self::addChunkEvent($event_name, $hook_ip, "", "" );
+	}
 	
 }
 

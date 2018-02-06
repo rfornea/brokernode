@@ -18,6 +18,22 @@ class UploadSessionController extends Controller
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
+    
+    
+    public static $ChunkEventsRecord  = null;
+    
+    
+    private static function initEventRecord()
+    {
+        if (is_null(self::$ChunkEventsRecord)) {
+            self::$ChunkEventsRecord = new ChunkEvents();
+        }
+    }
+    
+    
+    
+    
+    
     public function store(Request $request)
     {
         $genesis_hash = $request->input('genesis_hash');
@@ -79,6 +95,21 @@ class UploadSessionController extends Controller
 
         return response()->json($upload_session);
     }
+    
+    
+    public function reportChunkFinished(Request $request)
+    {
+        $chunk_id = $request->input('chunk_id');
+        $hook_id = $request->input('hook_id');
+        
+        self::initEventRecord();
+        self::$ChunkEventsRecord->addHookNodeFinishedChunkEvent($hooknode['ip_address']);
+        
+        
+        
+        return response()->json($upload_session);
+    }
+    
 
     /**
      * Update the specified resource in storage.
