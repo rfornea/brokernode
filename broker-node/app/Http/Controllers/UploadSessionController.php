@@ -107,7 +107,7 @@ class UploadSessionController extends Controller
         
         
         
-        return response()->json($upload_session);
+        return response()->json("{\"blah\":\"3\"}");
     }
     
 
