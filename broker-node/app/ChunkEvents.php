@@ -76,6 +76,13 @@ class ChunkEvents extends Model
 	    self::addChunkEvent($event_name, $hook_ip, "", "" );
 	}
 	
+	public function addChunkSentFromClientEvent(){
+	    
+	    $event_name = "chunk_sent_by_client";
+	    
+	    self::addChunkEvent($event_name, "na", "", "" );
+	}
+	
 }
 
 

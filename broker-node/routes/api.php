@@ -23,7 +23,7 @@ Route::group(['prefix' => 'v1'], function() {
     ]);
     Route::post('/upload-sessions/beta', 'UploadSessionController@storeBeta');
     
-    Route::post('/hooknodes/report-status', 'HookNodeController@reportChunkFinished');
+    Route::post('/report-hook-status', 'HookNodeController@reportChunkFinished');
     Route::get('/chunk-status', 'UploadSessionController@chunkStatus');
     
 
