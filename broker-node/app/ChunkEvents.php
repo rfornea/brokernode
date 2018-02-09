@@ -33,7 +33,7 @@ class ChunkEvents extends Model
     
     protected $table = 'chunk_events';
     protected $fillable = [
-        'hook_node_id',
+        'hooknode_id',
         'session_id',
         'event_name',
         'value'
@@ -46,7 +46,7 @@ class ChunkEvents extends Model
 	
 		self::create([
 
-		    'hook_node_id' => $hook_node_id,
+		    'hooknode_id' => $hooknode_id,
 		    
 		    'session_id' => $session_id,
 
