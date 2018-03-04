@@ -15,9 +15,9 @@ exports.add_peer_id = function(req, res) {
 
   //until we refactor I will just make and dispose of connections
   var con = mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      password: "dishsoap"
+      host: "18.221.203.101:3306",
+      user: "default",
+      password: "secret"
 
   });
 
