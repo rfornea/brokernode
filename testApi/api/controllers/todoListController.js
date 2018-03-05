@@ -13,7 +13,7 @@ exports.add_peer_id = function(req, res) {
   var con = connect();
 
   //add peer sql
-  var sql = "INSERT INTO testdb.peer_ids (peer_id) VALUES (\"" + peer_id + "\");";
+  var sql = "INSERT INTO default.PeerIds (peer_id) VALUES (\"" + peer_id + "\");";
   con.query( sql, function(err, result){
     console.log("Added new peer id.");
     res.send("accepted");
