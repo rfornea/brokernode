@@ -128,10 +128,11 @@ exports.need_selected = function(req, res) {
 
 function connect(){
   var con = mysql.createConnection({
-      host: "18.221.203.101",
+      host: "127.0.0.1",
       port:  3306,
-      user: "root",
-      password: "root"
+      user: "mariadb",
+      password: "pwd",
+      db: "default"
 
   });
   return con;
