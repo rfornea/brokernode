@@ -127,9 +127,9 @@ exports.need_selected = function(req, res) {
 
 function connect(){
   var con = mysql.createConnection({
-      host: "localhost",
-      user: "root",
-      password: "dishsoap"
+      host: "localhost:3306",
+      user: "default",
+      password: "secret"
 
   });
   return con;
