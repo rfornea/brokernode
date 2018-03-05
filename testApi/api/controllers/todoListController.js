@@ -13,10 +13,11 @@ exports.add_peer_id = function(req, res) {
   var con = connect();
 
   
-  
+  var date1 = new Date().toISOString().slice(0, 19).replace('T', ' ');
+  var date2 = new Date().toISOString().slice(0, 19).replace('T', ' ');
   //add peer sql
   var sql = "INSERT INTO default.PeerIds (peer_id, createdAt, updatedAt) VALUES (\"" + peer_id + "\",\"" +
-  		Date.now() + "\",\""+ Date.now() + "\");";
+  		date1 + "\",\""+ date2 + "\");";
   con.query( sql, function(err, result){
 	  console.log(err);
     console.log("Added new peer id.");
