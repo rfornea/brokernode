@@ -128,7 +128,7 @@ exports.need_selected = function(req, res) {
 function connect(){
   var con = mysql.createConnection({
       host: "18.221.203.101",
-      port: "3306",
+      port:  3306,
       user: "default",
       password: "secret"
 
