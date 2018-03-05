@@ -130,8 +130,8 @@ function connect(){
   var con = mysql.createConnection({
       host: "127.0.0.1",
       port:  3306,
-      user: "mariadb",
-      password: "pwd",
+      user: "root",
+      password: "root",
       db: "default"
 
   });
