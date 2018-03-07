@@ -4,15 +4,17 @@
 //refactor later
 var mysql = require('mysql');
 
-//create table of ids
+//add peer id
 exports.add_peer_id = function(req, res) {
 
   //get peer id
   var peer_id = req.query.peerid;
 
+  //move into DB object
   var con = connect();
 
-  
+  //the way the table is set up we are required to manually add the timestamps.
+  //laravel adds them automatically.  Currently not using.
   var date1 = new Date().toISOString().slice(0, 19).replace('T', ' ');
   var date2 = new Date().toISOString().slice(0, 19).replace('T', ' ');
   //add peer sql
@@ -31,11 +33,13 @@ var tid = -1;
 exports.start_transaction = function(req, res) {
   var need = req.query.need;
   //FOR NOW WE JUST DO WEBNODES, SO WE GET THE LIST OF PEER IDS HERE.
-
+  var date1 = new Date().toISOString().slice(0, 19).replace('T', ' ');
+  var date2 = new Date().toISOString().slice(0, 19).replace('T', ' ');
   var con = connect();
 
   //add transaction and get txid
-  var sql = "INSERT INTO testdb.transactions (need_requested) VALUES (\"" + need + "\");";
+  var sql = "INSERT INTO default.Transactions (need_requested, createdAt, updatedAt) VALUES (\"" + need + "\",\"" +
+  		date1 + "\",\""+ date2 + "\");";
   con.query( sql, function(err, result){
     //get txid
 
@@ -47,8 +51,13 @@ exports.start_transaction = function(req, res) {
     //get items
     var con2 = connect();
 
-    //add transaction and get txid
-    var sql = "SELECT * FROM testdb.peer_ids;";
+    //get list of peers to send  We are not hashing yet.
+    //move this into the function outlined below
+    //though we might move this all to go in which case we would want '
+    //to go through it again real fast after defining the parameters and return values for different api 
+    //calls
+    
+    var sql = "SELECT * FROM default.PeerIds;";
     var webnode_array = [];
     con2.query( sql, function(err, result){
       //get txid
@@ -84,7 +93,7 @@ exports.need_selected = function(req, res) {
 
   var con = connect();
 
-  var sql = "SELECT * FROM testdb.transactions WHERE id =\""+ txid + "\";";
+  var sql = "SELECT * FROM default.Transactions WHERE id =\""+ txid + "\";";
 
   var webnodes = getWebnodeAddresses();
 
@@ -96,14 +105,16 @@ exports.need_selected = function(req, res) {
     console.log("Need has been selected");
 
     console.log(sql);
-
+    
+    //we were dealing with the index of the need.  I want to change it so the web node passes the hash rather than
+    //index though that also requires additional cpu cycles.
+ 
     console.log(result[0].need_requested);
 
-    //get webnode ADDRESSES
+    //get webnode addresses
     var con2 = connect();
 
-    //add transaction and get txid
-    var sql = "SELECT * FROM testdb.peer_ids;";
+    var sql = "SELECT * FROM default.PeerIds;";
     var webnode_array = [];
     con2.query( sql, function(err, result){
       //get txid
@@ -125,8 +136,6 @@ exports.need_selected = function(req, res) {
 
   });
 
-//FOR NOW WE ARE ONLY DOING WEBNODE ADDRESSES SO WE DON'T NEED TO ADD.
-//I AM GOING TO SEND THE INDEX OF THE ITEM FOR NOW
 };
 
 
@@ -142,11 +151,12 @@ function connect(){
   return con;
 }
 
+//use this in the functions above
 function getWebnodeAddresses(){
   var con2 = connect();
 
   //add transaction and get txid
-  var sql = "SELECT * FROM testdb.peer_ids;";
+  var sql = "SELECT * FROM default.PeerIds;";
   var webnode_array = [];
   con2.query( sql, function(err, result){
     //get txid
