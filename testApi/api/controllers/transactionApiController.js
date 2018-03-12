@@ -166,9 +166,10 @@ function getHookNodeList(){
 	
 	connection.query(query, function (err, result){
 			console.log(result);
+			return;
 		}
 	);
-}
+//}
 
 exports.report_work_finished = function (req, res) {
 
