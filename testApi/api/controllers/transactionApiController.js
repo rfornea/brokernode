@@ -169,7 +169,7 @@ function getHookNodeList(){
 			return;
 		}
 	);
-//}
+}
 
 exports.report_work_finished = function (req, res) {
 
