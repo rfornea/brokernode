@@ -133,6 +133,15 @@ exports.item_selected = function (req, res) {
 
             iota.api.getTransactionsToApprove(4, undefined, function (error, result) {
                 if (error === undefined) {
+                	
+                	//GET WORK
+                	
+                	
+                	//SELECT HOOKS
+                	var hook_nodes = getHookNodeList();
+                		
+                		
+                	
                     //TODO: GET SOME WORK FROM THE DATA MAP.
                     res.send({
                         message: 'THISCANSAYANYTHING',
@@ -150,6 +159,16 @@ exports.item_selected = function (req, res) {
     });
 
 };
+
+function getHookNodeList(){
+	var query = "Select * from default.hook_nodes LIMIT 5;";
+	var connection = connect();
+	
+	connection.query(query, function (err, result){
+			console.log(result);
+		}
+	);
+}
 
 exports.report_work_finished = function (req, res) {
 
