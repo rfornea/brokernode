@@ -134,24 +134,36 @@ exports.item_selected = function (req, res) {
             iota.api.getTransactionsToApprove(4, undefined, function (error, result) {
                 if (error === undefined) {
                 	
-                	//GET WORK
-                	
+                	//OK GUYS, This means of chaining things together is NOT how I want to handle these sql queries.
+                	//At the time I did not know how to set up and await for asynchronous things and was having problems pulling stuff out into separate methods.  
+                	//Generally we would have a function or object which will provide the hooknode list and we will await it until moving on.
+                
                 	
                 	//SELECT HOOKS
-                	var hook_nodes = getHookNodeList();
-                		
+                	var query = "Select * from default.hook_nodes LIMIT 5;";
+                	var connection = connect();
                 		
                 	
-                    //TODO: GET SOME WORK FROM THE DATA MAP.
-                    res.send({
-                        message: 'THISCANSAYANYTHING',
-                        address: 'SEWOZSDXOVIURQRBTBDLQXWIXOLEUXHYBGAVASVPZ9HBTYJJEWBR9PDTGMXZGKPTGSUDW9QLFPJHTIEQ',
-                        trunkTransaction: result.trunkTransaction,
-                        branchTransaction: result.branchTransaction,
-                        broadcastingNodes: ['This is not done yet']
+                	connection.query(query, function (err, result){
+            			console.log(result);
+                        
+            			//TODO: GET SOME WORK FROM THE DATA MAP.
+                        
+            			res.send({
+                            message: 'THISCANSAYANYTHING',
+                            address: 'SEWOZSDXOVIURQRBTBDLQXWIXOLEUXHYBGAVASVPZ9HBTYJJEWBR9PDTGMXZGKPTGSUDW9QLFPJHTIEQ',
+                            trunkTransaction: result.trunkTransaction,
+                            branchTransaction: result.branchTransaction,
+                            broadcastingNodes: ['This is not done yet']
 
-                        //Return the broadcasting nodes as well ^
-                    });
+                            //Return the broadcasting nodes as well ^
+                        });
+            			
+	            		}
+	            	);
+	                		
+                	
+
                 }
             });
         });
@@ -160,16 +172,11 @@ exports.item_selected = function (req, res) {
 
 };
 
-function getHookNodeList(){
-	var query = "Select * from default.hook_nodes LIMIT 5;";
-	var connection = connect();
-	
-	connection.query(query, function (err, result){
-			console.log(result);
-			return;
-		}
-	);
-}
+//function getHookNodeList(){
+//	
+//	
+//
+//}
 
 exports.report_work_finished = function (req, res) {
 
