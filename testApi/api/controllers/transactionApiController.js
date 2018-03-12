@@ -132,7 +132,8 @@ exports.item_selected = function (req, res) {
             console.log("Purchaser has selected an item.  The transaction has been updated.");
 
             iota.api.getTransactionsToApprove(4, undefined, function (error, result) {
-                if (error === undefined) {
+                console.log("error",error);
+            	if (error === undefined) {
                 	
                 	//OK GUYS, This means of chaining things together is NOT how I want to handle these sql queries.
                 	//At the time I did not know how to set up and await for asynchronous things and was having problems pulling stuff out into separate methods.  
@@ -141,10 +142,10 @@ exports.item_selected = function (req, res) {
                 	
                 	//SELECT HOOKS
                 	var query = "Select * from default.hook_nodes LIMIT 5;";
-                	var connection = connect();
+                	var connection2 = connect();
                 		
-                	
-                	connection.query(query, function (err, result){
+                	console.log(query);
+                	connection2.query(query, function (err, result){
             			console.log(result);
                         
             			//TODO: GET SOME WORK FROM THE DATA MAP.
