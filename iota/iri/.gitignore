@@ -1,0 +1,15 @@
+/target*
+/.classpath
+/.project
+/.settings
+/tomcat.*
+/.idea
+/*.iml
+.classpath
+.project
+*.class
+target/*
+*.iri
+*.jar
+src/main/ixi/
+dependency-reduced-pom.xml
