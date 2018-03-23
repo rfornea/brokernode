@@ -21,6 +21,20 @@ brokernode# buffalo db migrate
 brokernode# buffalo test
 ```
 
+## Private Tangle
+
+We store a fork of IRI in `/iota/iri` as a git subtree.
+
+In order to update to a newer version of our fork:
+
+```bash
+# Make sure you have our fork as a remote repo
+git remote add iri git@github.com:oysterprotocol/iri.git
+
+# Pull from our fork (make sure to squash)
+git subtree pull --prefix=/iota/iri --squash iri master
+```
+
 ---
 
 # Welcome to Buffalo!
