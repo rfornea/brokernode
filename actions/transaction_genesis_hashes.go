@@ -166,7 +166,7 @@ func (usr *TransactionGenesisHashResource) Update(c buffalo.Context) error {
 
 	res := transactionGenesisHashUpdateRes{
 		Purchase:       t.Purchase,
-		NumberOfChunks: int(math.Ceil(float64(storedGenesisHash.FileSizeBytes) / models.FileBytesChunkSize)),
+		NumberOfChunks: int(math.Ceil(float64(storedGenesisHash.FileSizeBytes)/models.FileBytesChunkSize)) + 1,
 	}
 
 	return c.Render(202, r.JSON(res))
